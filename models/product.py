@@ -35,7 +35,7 @@ def create_new_product(db: Session, prod: ProductCreate):
 
 def update_product(id: int, values: dict, db: Session):
     db_product = db.query(Product).filter(Product.id == id)
-    db_product.update(values)
+    db_product.update(values.dict())
     db.commit()
     return db_product.first()
 
@@ -46,3 +46,9 @@ def delete_product(db: Session, id: int):
     destroy.delete()
     db.commit()
     return deleted
+
+
+def quantity_reservation(db: Session, db_product, value):
+    db_product.update(value)
+    db.commit()
+    return db_product

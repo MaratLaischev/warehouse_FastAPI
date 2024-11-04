@@ -17,7 +17,7 @@ async def get_products(db: Session = Depends(get_db)):
     return get_all_products(db)
 
 
-@router.post('/products', response_model=ProductCreate)
+@router.post('/products', response_model=ProductResponse)
 async def create_products(
     product: ProductCreate, db: Session = Depends(get_db)
 ) -> ProductCreate:
@@ -26,8 +26,7 @@ async def create_products(
 
 @router.get('/products/{id}', response_model=ProductResponse)
 async def single_product(
-    id: Annotated[int, Path(..., title='Указывается id продукта',
-                            ge=1, lt=100)],
+    id: Annotated[int, Path(..., title='Указывается id продукта', ge=1)],
     db: Session = Depends(get_db),
 ):
     return single_product_exp(db=db, id=id)
@@ -36,7 +35,7 @@ async def single_product(
 @router.put('/products/{id}', response_model=ProductResponse)
 async def update_product(id: int, product: ProductUpdate,
                          db: Session = Depends(get_db)):
-    return update_single_product_exp(id=id, values=dict(product), db=db)
+    return update_single_product_exp(id=id, values=product, db=db)
 
 
 @router.delete('/products/{id}', status_code=status.HTTP_204_NO_CONTENT)

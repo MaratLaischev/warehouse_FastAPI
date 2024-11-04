@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, ForeignKey
 from db.database import Base
+from sqlalchemy.orm import Session
 
 
 class OrderItem(Base):
@@ -15,3 +16,11 @@ class OrderItem(Base):
         nullable=False, index=True
     )
     quantity = Column(Integer)
+
+
+def createbulk_order_item(db: Session, order_items):
+    order_item_objects = [
+        order_item.dict() for order_item in order_items
+    ]
+    db.bulk_insert_mappings(OrderItem, order_item_objects)
+    db.commit()

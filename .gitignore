@@ -8,5 +8,6 @@
 rad.json
 *.g.xlf
 *.flf
+.db
 TestResults.xml
 __pycache__/
